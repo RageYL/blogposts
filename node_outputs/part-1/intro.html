@@ -1,0 +1,144 @@
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<!--
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+		-->
+
+		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
+		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
+		<link rel="stylesheet" href="/node_modules/highlight.js/styles/default.css">
+
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
+
+		<script src="/node_modules/lodash/lodash.min.js"></script>
+		<script src="/node_modules/highcharts/highcharts.js"></script>
+		<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="/node_modules/slick-carousel/slick/slick.min.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<p>Want to understand machine learning by looking at nice pictures instead of
+boring math ? Want to learn how to use it to develop real applications in a few
+lines of code ? This series is for you !</p>
+<h1>Machine learning: applications</h1>
+<p>Let's begin with a wikipedia definition of machine learning: (TODO)</p>
+<blockquote>
+<p>Machine learning is a field of computer science that gives computers the
+ability to learn without being explicitly programmed.</p>
+</blockquote>
+<p>It allows machines to perform very complex tasks until now unreachable. Its
+applications seems limitless and already produce mind-blowing results. So,
+what's better to get you interested than to show you what you can do with it ?</p>
+<p>TODO: css, better usages &amp; better pictures and video (robots, generative models,
+, image to image, agi ?), can do/will be able to</p>
+<ul>
+<li>save lives by making medical diagnostics</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/lung-cancer.jpg" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<ul>
+<li>enrich yourself by predicting the stock market</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/stock-market.jpg" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<ul>
+<li>take a nap while your car drive you home</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/self-driving-car.jpg" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<ul>
+<li>protect the law by detecting fraud</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/fraud-detection.jpg" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<ul>
+<li>create your brand new bag from a doodle</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/doodle-art.png" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<ul>
+<li>eat your favorite meals prepared by your cooking robot chef</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/robot-chef.jpg" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<ul>
+<li>crush world champions at video games</li>
+</ul>
+<p><img src="/node_outputs/part-1/images/starcraft.jpg" alt="" width="800" height="200"> set source &amp; check copyright</p>
+<p>Those are just few examples: there is no limit ! And the field is growing so
+fast new applications are released every week !</p>
+<p>I hope it piqued your interest and without further ado, let's see how it works !</p>
+<h1>Machine learning: the big picture</h1>
+<p>Machine learning is a bit like a programmer: it's used to create functions. You
+begin by creating some kind of magic box: a machine learning model.</p>
+<p><img src="/node_outputs/part-1/images-js/big-picture-model-only.png" alt=""></p>
+<p>If you give it some data (images, texts, sounds, spreadsheets, sensor values, ...)
+it gives you something in return.</p>
+<p><img src="/node_outputs/part-1/images-js/big-picture-model-forward.png" alt=""></p>
+<p>But at first, it has no idea what you expect it to return</p>
+<p><img src="/node_outputs/part-1/images-js/big-picture-model-init.png" alt=""></p>
+<p>Fortunately, it can learn. Either by itself (unsupervised learning) or by
+being teached (supervised learning). Let's see the later in more details.</p>
+<h1>Supervised learning</h1>
+<p>Supervised learning is similar to how you would teach a child. Imagine you have
+some images representing animals (cats, dogs, birds...). You show him a random
+picture and ask him what animal he thinks it is.</p>
+<p><img src="/node_outputs/part-1/images-js/supervised-predict.png" alt=""></p>
+<p>If he got it wrong, you correct him</p>
+<p><img src="/node_outputs/part-1/images-js/supervised-correct.png" alt=""></p>
+<p>If he got it right, you reward him</p>
+<p><img src="/node_outputs/part-1/images-js/supervised-reward.png" alt=""></p>
+<p>Repeat this long enought and he will eventually learn to recognize animals.</p>
+<p>The key point of supervised learning is that you must have the answers to the
+questions you ask.</p>
+<h1>Classification</h1>
+<p>While machine learning can be used to tackle very different problems, we will
+only perform classification tasks in this post. The objective of such tasks is
+to predict to which categories belongs the input data.</p>
+<p>An example would be lung cancer detection: given a 3d scan, you must predict if
+the patient is suffering from cancer or not:</p>
+<p><img src="/node_outputs/part-1/images-js/cancer-classes.png" alt=""></p>
+<p>You can also have problems that have more than one categories. For instance, if
+you want to know which animals are represented in a pictures, you can have one
+class per kind of animals:</p>
+<p><img src="/node_outputs/part-1/images-js/animal-classes.png" alt=""></p>
+<h1>The project: handwritten digits recognition</h1>
+<p>In this post, our objective will be to learn, step by step, how to create a
+system capable of recognizing handwritten digits. The system will work as
+follows: we input an image</p>
+<p><img src="/node_outputs/part-1/images-js/project-input.png" alt=""></p>
+<p>And the model predict which digit is represented in the image.</p>
+<p><img src="/node_outputs/part-1/images-js/project-output.png" alt=""></p>
+<h1>Images</h1>
+<p>As we will be working with images, let's learn a bit more about them.</p>
+<p>An image is composed of small colored squares, called pixels. Each pixel is
+represented by a number which define its filling color. Here is an example with
+huge pixels:</p>
+<p><img src="/node_outputs/part-1/images-js/image-as-pixels.png" alt=""></p>
+<p>In this image:</p>
+<ul>
+<li>a white pixel is represented by a 1</li>
+<li>a black pixel is represented by a 0</li>
+</ul>
+<p>For the sake of keeping this post as simple as possible, we will be using images
+comprised of black and white pixels only in all our examples.</p>
+<p><img src="/node_outputs/part-1/images-js/pixels-01.png" alt=""></p>
+<p>Now that the introduction is over, let the fun begin !</p>
+<hr>
+<div class="important">
+<p>Before we begin, I'd like to emphasize that those posts are here to give a high
+level understanding of machine learning. I tried hard to make the content
+accessible to as many people as possible, but the post is long and dense. if you
+feel you don't understand everything, do not give up and continue reading. Most
+of the content is here to give you an intuition about how things work and is not
+mandatory to understand what's follow. None of the maths presented here are
+important !</p>
+</div>
+
+		</div>
+	</body>
+	</html>
+	

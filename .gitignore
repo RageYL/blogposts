@@ -11,3 +11,6 @@
 
 !_posts
 !_layouts
+
+!node_outputs
+!node_scripts

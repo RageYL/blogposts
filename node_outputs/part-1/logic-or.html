@@ -1,0 +1,99 @@
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<!--
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+		-->
+
+		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
+		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
+		<link rel="stylesheet" href="/node_modules/highlight.js/styles/default.css">
+
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
+
+		<script src="/node_modules/lodash/lodash.min.js"></script>
+		<script src="/node_modules/highcharts/highcharts.js"></script>
+		<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="/node_modules/slick-carousel/slick/slick.min.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<h1>Both not black model</h1>
+<p>Let's do a last example to familiarize a bit more with keras: given two pixels,
+outputs:</p>
+<ul>
+<li>0 if both pixels are black</li>
+<li>1 otherwise</li>
+</ul>
+<p>This is exactly the same problem as before, just with different labels. So let's
+use this example to introduce a bit of notation:</p>
+<ul>
+<li>inputs are often associated with the variable 'x'</li>
+<li>labels are often associated with the variable 'y'.</li>
+</ul>
+<pre><code class="language-python">both_not_black_model = Sequential()
+both_not_black_model.add(Dense(<span class="hljs-number">1</span>, use_bias = <span class="hljs-keyword">False</span>, input_shape = (<span class="hljs-number">2</span>,)))
+
+<span class="hljs-comment"># inputs are often referred as 'x'</span>
+<span class="hljs-comment"># labels are often referred as 'y'</span>
+both_not_black_x = [[BLACK, BLACK], [WHITE, BLACK], [WHITE, WHITE], [BLACK, WHITE]]
+both_not_black_y = [<span class="hljs-number">0</span>,              <span class="hljs-number">1</span>,              <span class="hljs-number">1</span>,              <span class="hljs-number">1</span>]
+
+train(
+    both_not_black_model,
+    both_not_black_x,
+    both_not_black_y
+)
+
+<span class="hljs-comment">#&gt; ...</span>
+<span class="hljs-comment">#&gt; Epoch 1999/2000</span>
+<span class="hljs-comment">#&gt; 4/4 [==============================] - 0s - loss: 0.0833 - acc: 1.0000</span>
+<span class="hljs-comment">#&gt; Epoch 2000/2000</span>
+<span class="hljs-comment">#&gt; 4/4 [==============================] - 0s - loss: 0.0833 - acc: 1.0000</span>
+
+both_not_black_model.predict_classes(both_not_black_x)
+
+<span class="hljs-comment">#&gt; array([[0],</span>
+<span class="hljs-comment">#&gt;        [1],</span>
+<span class="hljs-comment">#&gt;        [1],</span>
+<span class="hljs-comment">#&gt;        [1]], dtype=int32)</span>
+
+both_not_black_model.predict(both_not_black_x)
+
+<span class="hljs-comment">#&gt; array([[ 0.        ],</span>
+<span class="hljs-comment">#&gt;        [ 0.6666919 ],</span>
+<span class="hljs-comment">#&gt;        [ 1.33333325],</span>
+<span class="hljs-comment">#&gt;        [ 0.66664141]], dtype=float32)</span>
+</code></pre>
+<p>Those small networks should have no more secret for you.</p>
+<h1>Generic code</h1>
+<p>Until now, we wrote a specific <code>neuron()</code> function for each network, let's
+implement a generic version.</p>
+<p>We pass the inputs and weights as lists:</p>
+<pre><code class="language-python">x = [x1, x2]
+w = [w1, w2]
+</code></pre>
+<p>Then we sum the product of each pair:</p>
+<pre><code class="language-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">neuron</span><span class="hljs-params">(x, w)</span>:</span>
+    y = <span class="hljs-number">0</span>
+    n = len(x)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):
+        y += x[i] * w[i]
+    <span class="hljs-keyword">return</span> y
+
+neuron(x, w)
+</code></pre>
+<p>TODO: notation in real life &amp; dot product</p>
+
+		</div>
+	</body>
+	</html>
+	
