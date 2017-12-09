@@ -1,0 +1,13 @@
+/*
+
+!.gitignore
+!Gemfile
+!Gemfile.lock
+
+!404.html
+!about.md
+!index.md
+!_config.yml
+
+!_posts
+!_layouts
