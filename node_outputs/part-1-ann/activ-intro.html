@@ -4,14 +4,17 @@
 	<head>
 		<meta charset="UTF-8">
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
 		<!--
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
 		-->
 
 		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
 		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
-		<link rel="stylesheet" href="/node_modules/highlight.js/styles/default.css">
+		<link rel="stylesheet" href="/node_modules/prismjs/themes/prism-okaidia.css">
 
 		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
 		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
@@ -25,8 +28,13 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 	<body>
-		<div id="content">
-			<h1>Current limitations of our models</h1>
+		<article>
+			<header>
+				<h1>Welcome to Machine Learning<h1>
+				<h1>Part 1 - Neural Networks</h1>
+			</header>
+			<div id="article-content">
+				<h1 id="current-limitations-of-our-models">Current Limitations of Our Models</h1>
 <p>Now that we learned how to build networks with multiple layers and neurons, it's
 time to see why they are better than our simple one neuron models... or not.</p>
 <p>Neural networks are just big mathematical functions: a bunch of additions and
@@ -41,7 +49,7 @@ different function.</p>
 <li>if the input pixel is black (0), the model return 0</li>
 </ul>
 <p>Here is a graph representing this problem: (TODO: explain school vs non school ?)</p>
-<p><img src="/node_outputs/part-1/images-js/graph-id-dataset.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-id-dataset.png" alt=""></p>
 <p>The <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.43056em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">x</span></span></span></span> axis represent the value taken by the input pixel, and the <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.03588em;">y</span></span></span></span> axis
 represent the output value.</p>
 <p>Any function that pass by those two points would be a solution to our problem
@@ -50,13 +58,13 @@ because we only need the following to be true:</p>
 <li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mo>(</mo><mi>b</mi><mi>l</mi><mi>a</mi><mi>c</mi><mi>k</mi><mo>)</mo><mo>=</mo><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mo>(</mo><mn>0</mn><mo>)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">model(black) = model(0) = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">m</span><span class="mord mathit">o</span><span class="mord mathit">d</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mopen">(</span><span class="mord mathit">b</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mord mathit">a</span><span class="mord mathit">c</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit">m</span><span class="mord mathit">o</span><span class="mord mathit">d</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mopen">(</span><span class="mord mathrm">0</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span></li>
 <li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mo>(</mo><mi>w</mi><mi>h</mi><mi>i</mi><mi>t</mi><mi>e</mi><mo>)</mo><mo>=</mo><mi>m</mi><mi>o</mi><mi>d</mi><mi>e</mi><mi>l</mi><mo>(</mo><mn>1</mn><mo>)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">model(white) = model(1) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base textstyle uncramped"><span class="mord mathit">m</span><span class="mord mathit">o</span><span class="mord mathit">d</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="mord mathit">h</span><span class="mord mathit">i</span><span class="mord mathit">t</span><span class="mord mathit">e</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit">m</span><span class="mord mathit">o</span><span class="mord mathit">d</span><span class="mord mathit">e</span><span class="mord mathit" style="margin-right:0.01968em;">l</span><span class="mopen">(</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span></li>
 </ul>
-<p><img src="/node_outputs/part-1/images-js/graph-id-solutions.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-id-solutions.png" alt=""></p>
 <p>Now, remember the equation of our network:</p>
-<p><img src="/node_outputs/part-1/images-js/nnet-id-equation.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-id-equation.png" alt=""></p>
 <p>We found that <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">w = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span> was the solution.</p>
-<p><img src="/node_outputs/part-1/images-js/graph-id-solution.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-id-solution.png" alt=""></p>
 <p>Let's try other weight values to see what the generated functions looks like:</p>
-<p><img src="/node_outputs/part-1/images-js/graph-id-weights.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-id-weights.png" alt=""></p>
 <p>We can see that no matter the value of the weight, we observe two things:</p>
 <ul>
 <li>the function is always a line</li>
@@ -64,54 +72,54 @@ because we only need the following to be true:</p>
 </ul>
 <p>The second observation is what bothered us with <code>pixel_is_black</code>: if we input a
 black pixel (0), no matter the weight's value, the result will always be 0.</p>
-<p><img src="/node_outputs/part-1/images-js/nnet-not-equations.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-not-equations.png" alt=""></p>
 <p>If we had plotted the dataset, we could have spotted the problem without looking
 at the equations.</p>
 <ul>
 <li>if the input pixel is black (0), the function returns 1</li>
 <li>if the input pixel is white (1), the function returns 0</li>
 </ul>
-<p><img src="/node_outputs/part-1/images-js/graph-not-dataset.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-not-dataset.png" alt=""></p>
 <p>We can see that if we only create functions that return 0 when <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">x</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span>, we cannot
 pass by the first point.</p>
 <p>But then, we introduced biases:</p>
-<p><img src="/node_outputs/part-1/images-js/nnet-not-bias-equation.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-not-bias-equation.png" alt=""></p>
 <p>And we found that <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>=</mo><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">w = -1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="mrel">=</span><span class="mord">−</span><span class="mord mathrm">1</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">b = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">b</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span> worked</p>
-<p><img src="/node_outputs/part-1/images-js/graph-not-solution.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-not-solution.png" alt=""></p>
 <p>The bias allows us to create functions that return something other than 0 when
 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.64444em;vertical-align:0em;"></span><span class="base textstyle uncramped"><span class="mord mathit">x</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span>. Here are some more examples with <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi><mo>=</mo><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">w = -1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.64444em;"></span><span class="strut bottom" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="base textstyle uncramped"><span class="mord mathit" style="margin-right:0.02691em;">w</span><span class="mrel">=</span><span class="mord">−</span><span class="mord mathrm">1</span></span></span></span> but different bias
 values:</p>
-<p><img src="/node_outputs/part-1/images-js/graph-not-biases.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-not-biases.png" alt=""></p>
 <p>While the bias allows us to move the line in any direction, we are still limited
 to produce 'line' functions, called linear functions in the mathematical world.</p>
 <p>Why is that bothering us ? Let's imagine we add one new purple pixel represented
 by the number 2:</p>
-<p><img src="/node_outputs/part-1/images-js/pixels-012.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/pixels-012.png" alt=""></p>
 <p>Here is the new graph of <code>pixel_is_white</code>. The only change is that we must also
 return 0 for purple, because... it's not white</p>
-<p><img src="/node_outputs/part-1/images-js/graph-non-linear-dataset.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-non-linear-dataset.png" alt=""></p>
 <p>The function would have to be something like that:</p>
-<p><img src="/node_outputs/part-1/images-js/graph-non-linear-solution.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-non-linear-solution.png" alt=""></p>
 <p>Not very linear... So one neuron can't solve this problem. Intuitively, it may
 seems like using more neurons and layers may solve this problem. But because
 neurons are linear functions, it won't help. Let's see why.</p>
 <p>Let's begin with a deeper network:</p>
-<p><img src="/node_outputs/part-1/images-js/neural-net-111-equation.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-111-equation.png" alt=""></p>
 <p>We can confirm that for different weights values it still output lines:</p>
-<p><img src="/node_outputs/part-1/images-js/graph-nnet-111-weights.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-nnet-111-weights.png" alt=""></p>
 <p>Why ? If we take a closer look at the previous equation, we can see that both
 weights are multiplied together and act like a single weight.</p>
-<p><img src="/node_outputs/part-1/images-js/neural-net-111-equation-shrink.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-111-equation-shrink.png" alt=""></p>
 <p>No matter how deep our network is, it's equivalent to a network with a single
 neuron.</p>
 <p>What about a larger network ?</p>
-<p><img src="/node_outputs/part-1/images-js/neural-net-121-equation.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-121-equation.png" alt=""></p>
 <p>Let's look at the generated functions:</p>
-<p><img src="/node_outputs/part-1/images-js/graph-nnet-121-weights.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/graph-nnet-121-weights.png" alt=""></p>
 <p>Once again, we are out of luck. The reason also lies in the equations:</p>
-<p><img src="/node_outputs/part-1/images-js/neural-net-121-equation-shrink.png" alt=""></p>
-<p><img src="/node_outputs/part-1/images-js/neural-net-121-equation-shrink-deep.png" alt=""></p>
-<p><img src="/node_outputs/part-1/images-js/neural-net-121-equation-shrink-large.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-121-equation-shrink.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-121-equation-shrink-deep.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-121-equation-shrink-large.png" alt=""></p>
 <p>No matter how large our network is, it's equivalent to a network with a single
 neuron.</p>
 <p>We just proved that our small networks composed of one neuron are equivalent to
@@ -124,7 +132,8 @@ always output a line. (TODO)</p>
 one above. It's time to introduce our saviours: activation functions.</p>
 <p>TODO: 3d example with linear plane</p>
 
-		</div>
+			</div>
+		</article>
 	</body>
 	</html>
 	

@@ -1,0 +1,281 @@
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+		<!--
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+		-->
+
+		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
+		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
+		<link rel="stylesheet" href="/node_modules/prismjs/themes/prism-okaidia.css">
+
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
+
+		<script src="/node_modules/lodash/lodash.min.js"></script>
+		<script src="/node_modules/highcharts/highcharts.js"></script>
+		<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="/node_modules/slick-carousel/slick/slick.min.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
+	<body>
+		<article>
+			<header>
+				<h1>Welcome to Machine Learning<h1>
+				<h1>Part 1 - Neural Networks</h1>
+			</header>
+			<div id="article-content">
+				<h1 id="more-about-neural-networks">More About Neural Networks</h1>
+<p>Before we look at a more serious issues, we need to learn a bit more about
+neural networks and keras.</p>
+<p>Let's take a fresh look at the first neural network picture:</p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-2332.png" alt=""></p>
+<p>We can see that neurons form groups called layers.</p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-2332-layers.png" alt=""></p>
+<p>Layers have special names:</p>
+<ul>
+<li>The first one is called input layer</li>
+<li>The last one is called output layer</li>
+<li>All the others, in between, are called hidden layers</li>
+</ul>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-2332-layers-names.png" alt=""></p>
+<p>The weights belongs to the layers, not the inputs: (rephrase)</p>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-2332-weights-names.png" alt=""></p>
+<p>We are now ready to talk about <code>Dense</code> and <code>Sequential</code> !</p>
+<h2 id="dense">Dense</h2>
+<p>If we look at the imports, we can see that <code>Dense</code> is a layer.</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">from</span> keras<span class="token punctuation">.</span>layers <span class="token keyword">import</span> Dense
+</code></pre>
+<p>A <code>Dense</code> layer simply create a bunch of neurons and connect each one of them to
+every single input.</p>
+<pre class="language-python"><code class="language-python">Dense<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-23.png" alt=""></p>
+<pre class="language-python"><code class="language-python">Dense<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">True</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-23-bias.png" alt=""></p>
+<p><code>Dense</code> layers are often referred as Fully Connected (FC) layers in the
+litterature.</p>
+<div class="note">
+<p>There is more than one kind of layer, we will introduce them as we go.</p>
+</div>
+<h2 id="sequential">Sequential</h2>
+<p>Until now, we only created networks with one layer. What if wanted we create a
+deeper network ? Well, this is where <code>Sequential</code> kicks in.</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">from</span> keras<span class="token punctuation">.</span>models <span class="token keyword">import</span> Sequential
+</code></pre>
+<p><code>Sequential</code> is a model that stacks layers: every time you <code>add()</code> a layer, it
+is inserted at the end of the model. (colors are confusing and no alignment,
+play with visibility)</p>
+<pre class="language-python"><code class="language-python">model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Dense<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-23.png" alt=""></p>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Dense<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-233.png" alt=""></p>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Dense<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p><img src="/node_outputs/part-1-ann/images-js/neural-net-2332.png" alt=""></p>
+<p>You may have noticed that only the first layer require <code>input_shape</code>. All
+subsequent layers will use the neurons of the previous layer as inputs.</p>
+<h2 id="playing-with-keras">Playing With Keras</h2>
+<p>Keras offers some nice methods and attributes to play with layers. I will
+briefly introduce those we will use in this post. Refer to the official
+documentation for more information.</p>
+<ul>
+<li><code>Model.summary()</code>: displays a textual represention of the model</li>
+</ul>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>summary<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#> _________________________________________________________________</span>
+<span class="token comment">#> Layer (type)                 Output Shape              Param #</span>
+<span class="token comment">#> =================================================================</span>
+<span class="token comment">#> dense_1 (Dense)              (None, 3)                 6</span>
+<span class="token comment">#> _________________________________________________________________</span>
+<span class="token comment">#> dense_2 (Dense)              (None, 3)                 9</span>
+<span class="token comment">#> _________________________________________________________________</span>
+<span class="token comment">#> dense_3 (Dense)              (None, 2)                 6</span>
+<span class="token comment">#> =================================================================</span>
+<span class="token comment">#> Total params: 21</span>
+<span class="token comment">#> Trainable params: 21</span>
+<span class="token comment">#> Non-trainable params: 0</span>
+<span class="token comment">#> _________________________________________________________________</span>
+</code></pre>
+<ul>
+<li><code>Model.layers</code>: attribute containing all the layers added to the model</li>
+</ul>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>layers
+
+<span class="token comment">#> [&lt;keras.layers.core.Dense at 0x7f3797d52cc0>,</span>
+<span class="token comment">#>  &lt;keras.layers.core.Dense at 0x7f3797d31940>,</span>
+<span class="token comment">#>  &lt;keras.layers.core.Dense at 0x7f3797cd4c18>]</span>
+</code></pre>
+<ul>
+<li><code>Model.get_weights()</code>: get the weights of each layer</li>
+<li><code>Model.set_weights()</code>: set the weights of each layer</li>
+</ul>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>get_weights<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#> [array([[-0.71340144, -0.03733754,  0.17574036],</span>
+<span class="token comment">#>         [-0.93694097, -0.81433576, -0.4139728 ]], dtype=float32),</span>
+<span class="token comment">#>  array([[-0.64885306, -0.59295535,  0.0623827 ],</span>
+<span class="token comment">#>         [-0.86857986, -0.84055448,  0.59113455],</span>
+<span class="token comment">#>         [-0.59811687,  0.80146456, -0.72720838]], dtype=float32),</span>
+<span class="token comment">#>  array([[-1.04037547, -0.68300182],</span>
+<span class="token comment">#>         [ 0.88082504,  0.62239075],</span>
+<span class="token comment">#>         [ 0.56199396,  0.19530547]], dtype=float32)]</span>
+
+model<span class="token punctuation">.</span>set_weights<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># 3 neurons, 2 inputs</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># 3 neurons, 3 inputs</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span>   <span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># 2 neurons, 3 inputs</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+model<span class="token punctuation">.</span>get_weights<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#> [array([[ 1.,  2.,  3.],</span>
+<span class="token comment">#>         [ 1.,  2.,  3.]], dtype=float32),</span>
+<span class="token comment">#>  array([[ 4.,  5.,  6.],</span>
+<span class="token comment">#>         [ 4.,  5.,  6.],</span>
+<span class="token comment">#>         [ 4.,  5.,  6.]], dtype=float32),</span>
+<span class="token comment">#>  array([[ 7.,  8.     ],</span>
+<span class="token comment">#>         [ 7.,  8.     ],</span>
+<span class="token comment">#>         [ 7.,  8.     ]], dtype=float32)]</span>
+</code></pre>
+<ul>
+<li><code>Layer.get_weights()</code>: get the weights of a layer</li>
+<li><code>Layer.set_weights()</code>: set the weights of a layer</li>
+</ul>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>layers<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>get_weights<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#> [array([[ 1.,  2.,  3.],</span>
+<span class="token comment">#>         [ 1.,  2.,  3.]], dtype=float32)]</span>
+
+model<span class="token punctuation">.</span>layers<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>get_weights<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token comment">#> [array([[ 4.,  5.,  6.],</span>
+<span class="token comment">#>         [ 4.,  5.,  6.],</span>
+<span class="token comment">#>         [ 4.,  5.,  6.]], dtype=float32)]</span>
+
+model<span class="token punctuation">.</span>layers<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>get_weights<span class="token punctuation">(</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span>layers<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>set_weights<span class="token punctuation">(</span><span class="token punctuation">[</span>np<span class="token punctuation">.</span>array<span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token comment">#> [array([[ 7.,  8.],</span>
+<span class="token comment">#>         [ 7.,  8.],</span>
+<span class="token comment">#>         [ 7.,  8.]], dtype=float32)]</span>
+</code></pre>
+<h2 id="math">Math</h2>
+<p>How do we compute something when we have multiple neurons ? We evaluate each one
+independently. They all have their own weights and share the same inputs.</p>
+<style>
+.carousel > p
+{
+    display: none;
+}
+</style>
+<div id="layer-computation" class="carousel">
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-23-inputs.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-23-neuron-1.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-23-neuron-2.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-23-neuron-3.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-23-outputs.png" alt=""></p>
+</div>
+<script> createCarousel($("#layer-computation p")) </script>
+<p>And when we have multiple layers ? Well we begin by computing the first layer
+using the input data. Then we compute the next layer using the
+previous layer as input, until the end.</p>
+<div id="network-computation" class="carousel">
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-2332-inputs.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-x-0.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-z-1.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-x-1.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-z-2.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-x-2.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-z-3.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-layer-x-3.png" alt="">
+<img src="/node_outputs/part-1-ann/images-js/nnet-2332-outputs.png" alt=""></p>
+</div>
+<script> createCarousel($("#network-computation p")) </script>
+<p>As we can see we start with inputs on the left and we go all the way to the
+right. This is called the forward pass:</p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-2332-forward.png" alt=""></p>
+<h2 id="code">Code</h2>
+<p>a <code>Dense</code> layer keep tracks of each neuron's weights. When fed with some inputs,
+it will return the computed output of each neuron.</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">DenseLayer</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> nb_neurons<span class="token punctuation">,</span> input_shape<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        For each neuron:
+            create `input_shape` random weights: one for each input
+        """</span>
+        self<span class="token punctuation">.</span>neurons_weights <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>nb_neurons<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>neurons_weights<span class="token punctuation">.</span>append<span class="token punctuation">(</span>
+                np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>random<span class="token punctuation">(</span>input_shape<span class="token punctuation">)</span>
+            <span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> inputs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        For each neuron:
+            compute its output
+        returns all outputs
+        """</span>
+        outputs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> neuron_weights <span class="token keyword">in</span> self<span class="token punctuation">.</span>neurons_weights<span class="token punctuation">:</span>
+            outputs<span class="token punctuation">.</span>append<span class="token punctuation">(</span>neuron<span class="token punctuation">(</span>inputs<span class="token punctuation">,</span> neuron_weights<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> outputs
+</code></pre>
+<p><code>Sequential</code> is rather straightforward:</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">SequentialModel</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>layers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">def</span> <span class="token function">add</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> layer<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>layers<span class="token punctuation">.</span>append<span class="token punctuation">(</span>layer<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> inputs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        For each layer:
+            compute its output using the previous layer's output as input
+        returns last layer's output
+        """</span>
+        <span class="token keyword">for</span> layer <span class="token keyword">in</span> self<span class="token punctuation">.</span>layers<span class="token punctuation">:</span>
+            inputs <span class="token operator">=</span> layer<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>inputs<span class="token punctuation">)</span>
+        <span class="token keyword">return</span> inputs
+</code></pre>
+<p>Finally, we can use all those pieces to create a multi-layer network:</p>
+<pre class="language-python"><code class="language-python">model <span class="token operator">=</span> SequentialModel<span class="token punctuation">(</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>DenseLayer<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>DenseLayer<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>DenseLayer<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+model<span class="token punctuation">.</span>predict<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<div class="note">
+<p>Whether you want to reimplement part of the api or you have troubles
+understanding a certain topic, I highly encourage you to take a look at keras
+source code. It's well written and well documented, it should be a great source
+of knowledges.</p>
+</div>
+
+			</div>
+		</article>
+	</body>
+	</html>
+	

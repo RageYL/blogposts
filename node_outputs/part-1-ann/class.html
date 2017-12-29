@@ -4,14 +4,17 @@
 	<head>
 		<meta charset="UTF-8">
 
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
 		<!--
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
 		-->
 
 		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
 		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
-		<link rel="stylesheet" href="/node_modules/highlight.js/styles/default.css">
+		<link rel="stylesheet" href="/node_modules/prismjs/themes/prism-okaidia.css">
 
 		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
 		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
@@ -25,34 +28,39 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
 	<body>
-		<div id="content">
-			<h1>Training</h1>
+		<article>
+			<header>
+				<h1>Welcome to Machine Learning<h1>
+				<h1>Part 1 - Neural Networks</h1>
+			</header>
+			<div id="article-content">
+				<h1 id="training">Training</h1>
 <p>With what we learned we can explain most of the <code>train</code> function. First let's
 take a look at:</p>
-<h2>compile</h2>
-<pre><code class="language-python">model.compile(optimizer = <span class="hljs-string">"sgd"</span>, loss = <span class="hljs-string">"mse"</span>, metrics = [<span class="hljs-string">"accuracy"</span>])
+<h2 id="compile">Compile</h2>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span><span class="token builtin">compile</span><span class="token punctuation">(</span>optimizer <span class="token operator">=</span> <span class="token string">"sgd"</span><span class="token punctuation">,</span> loss <span class="token operator">=</span> <span class="token string">"mse"</span><span class="token punctuation">,</span> metrics <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"accuracy"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </code></pre>
 <p>This line configure our model for training</p>
-<h2>loss</h2>
+<h2 id="loss">Loss</h2>
 <p>As we saw earlier, we need a function to evaluate how well our network perform.
 Those functions are called loss or cost functions.</p>
 <p>Here we used MSE, which is the short for Mean Squared Error. Its the one we
 described and used in our example.</p>
 <p>Like activations, there is a few well known losses that we will cover in the
 next section. Note that unlike activations it's not rare to create your own loss.</p>
-<h2>optimizer</h2>
+<h2 id="optimizer">Optimizer</h2>
 <p>Optimizers are the functions used to update the weights. In our example we
 implemented Stochastic Gradient Descent or SGD for short.  There is several
 other optimizers that all use the derivatives but update the weight in a
 different way to improve speed and accuracy. Nowadays a good default is adam.</p>
-<h2>metrics</h2>
+<h2 id="metrics">Metrics</h2>
 <p>Metrics is just an array that specify what information should be displayed while
 training. &quot;accuracy&quot; represent the percentage of correctly classified input</p>
 <ul>
 <li>1.0000: 100% of the inputs have been correctly classified</li>
 <li>0.7500:  75% of the inputs have been correctly classified</li>
 </ul>
-<pre><code class="language-python"><span class="hljs-comment">#&gt; 2/2 [==============================] - 0s - loss: 1.0960e-07 - acc: 1.0000</span>
+<pre class="language-python"><code class="language-python"><span class="token comment">#> 2/2 [==============================] - 0s - loss: 1.0960e-07 - acc: 1.0000</span>
 </code></pre>
 <p>Here we can see that 'acc' is displayed. By default only the loss is displayed.</p>
 <p>Until now the dataset represented all the value we wanted to predict, but in
@@ -60,8 +68,8 @@ real applications, we only have some examples. the objective is to have enought
 different examples so that the function we learn will predict good values for
 unseen inputs.</p>
 <p>TODO: graph</p>
-<h2>fit</h2>
-<pre><code class="language-python">model.fit(inputs, labels, epochs = <span class="hljs-number">2000</span>)
+<h2 id="fit">Fit</h2>
+<pre class="language-python"><code class="language-python">model<span class="token punctuation">.</span>fit<span class="token punctuation">(</span>inputs<span class="token punctuation">,</span> labels<span class="token punctuation">,</span> epochs <span class="token operator">=</span> <span class="token number">2000</span><span class="token punctuation">)</span>
 </code></pre>
 <p>This line actually train our model.</p>
 <p>We are already familiar with inputs and labels, those are the pairs used to
@@ -69,17 +77,17 @@ train our network.</p>
 <p>Epochs is the number of steps we want to take, i.e the number of times we
 improve our weights.</p>
 <p>You should now be able to understand the whole output:</p>
-<pre><code class="language-python"><span class="hljs-comment">#&gt; Epoch 2000/2000</span>
-<span class="hljs-comment">#&gt; 2/2 [==============================] - 0s - loss: 1.0960e-07 - acc: 1.0000</span>
+<pre class="language-python"><code class="language-python"><span class="token comment">#> Epoch 2000/2000</span>
+<span class="token comment">#> 2/2 [==============================] - 0s - loss: 1.0960e-07 - acc: 1.0000</span>
 </code></pre>
 <p>You now understand our whole code !</p>
-<h1>Output layers</h1>
+<h1 id="output-layers">Output Layers</h1>
 <p>Until now we only predicted a single number. But neural networks can be used to predict
 much more complex data. Let's see how we can do that !</p>
-<h1>regression</h1>
+<h2 id="regression">Regression</h2>
 <p>The ouput layer is used to give you the information you want. Here is a network
 with a single output:</p>
-<p><img src="/node_outputs/part-1/images-js/nnet-3331.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-3331.png" alt=""></p>
 <p>The most simple thing that an output neuron can return is a number. Let's see a
 few example:</p>
 <ul>
@@ -90,29 +98,29 @@ few example:</p>
 <p>Instead of having two networks, one predicting the x coordinate and a second
 predicting the y coordinate, you can use two neurons on the output layer and
 create a single network that predict the x and y value at once:</p>
-<p><img src="/node_outputs/part-1/images-js/nnet-3332.png" alt=""></p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-3332.png" alt=""></p>
 <p>The kind of tasks where you try to predict a continous value (like when we
 inverted the sign of the input number), represent regression problems. For these
 problems use one neuron per value you want to predict and use a mean squared
 error loss.</p>
 <p>When having multiple outputs with keras instead of having a label represented by
 a single value, we use an array:</p>
-<pre><code class="language-python"><span class="hljs-comment"># one output</span>
-labels = [
-    <span class="hljs-number">10</span>, <span class="hljs-comment"># label for input 1</span>
-    <span class="hljs-number">20</span>, <span class="hljs-comment"># label for input 2</span>
-    <span class="hljs-number">30</span>, <span class="hljs-comment"># label for input 3</span>
-]
+<pre class="language-python"><code class="language-python"><span class="token comment"># one output</span>
+labels <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token number">10</span><span class="token punctuation">,</span> <span class="token comment"># label for input 1</span>
+    <span class="token number">20</span><span class="token punctuation">,</span> <span class="token comment"># label for input 2</span>
+    <span class="token number">30</span><span class="token punctuation">,</span> <span class="token comment"># label for input 3</span>
+<span class="token punctuation">]</span>
 
-<span class="hljs-comment"># two outputs</span>
-labels = [
-    [<span class="hljs-number">10</span>, <span class="hljs-number">40</span>], <span class="hljs-comment"># label for input 1</span>
-    [<span class="hljs-number">20</span>, <span class="hljs-number">50</span>], <span class="hljs-comment"># label for input 2</span>
-    [<span class="hljs-number">30</span>, <span class="hljs-number">60</span>], <span class="hljs-comment"># label for input 3</span>
-]
+<span class="token comment"># two outputs</span>
+labels <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># label for input 1</span>
+    <span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">50</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># label for input 2</span>
+    <span class="token punctuation">[</span><span class="token number">30</span><span class="token punctuation">,</span> <span class="token number">60</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token comment"># label for input 3</span>
+<span class="token punctuation">]</span>
 </code></pre>
-<h1>classification</h1>
-<h1>binary classification</h1>
+<h2 id="classification">Classification</h2>
+<h3 id="binary-classification">Binary Classification</h3>
 <p>With one neuron we can also do binary classification: that's what we did until
 now. Binary because we classify the input between two categories/classes:</p>
 <ul>
@@ -142,7 +150,7 @@ using <code>binary_crossentropy</code> because we were doing binary classificati
 Unfortunately it would have required bigger networks from the start and I wanted
 to avoid that.</p>
 </div>
-<h1>multiclass classification</h1>
+<h3 id="multiclass-classification">Multiclass Classification</h3>
 <p>We've just covered binary classification, but in fact it's just a special case
 of classification. Instead of using one neuron we could have represented our
 problem with two neurons:</p>
@@ -201,7 +209,7 @@ image.</p>
 </ul>
 <p>And fortunately keras allows us to specify labels as number and will convert
 them as one hot vectors by using <code>sparse_categorical_crossentropy</code>.</p>
-<h1>classification example (keep or not ? simplify ?)</h1>
+<h2 id="classification-example-keep-or-not-simplify">Classification Example (Keep or Not ? Simplify ?)</h2>
 <p>We've seen how to solve many different problems and one nice thing is that we
 can mix those methods. Let's build a network for the following task: we have an
 image and we want to know if there is an animal in it.
@@ -229,7 +237,8 @@ worse. But in fact, it's the opposite: by giving a network many related tasks
 like we did above, will help the network to produce better predictions.</p>
 </div>
 
-		</div>
+			</div>
+		</article>
 	</body>
 	</html>
 	

@@ -1,0 +1,115 @@
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+		<!--
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+		-->
+
+		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
+		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
+		<link rel="stylesheet" href="/node_modules/prismjs/themes/prism-okaidia.css">
+
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
+
+		<script src="/node_modules/lodash/lodash.min.js"></script>
+		<script src="/node_modules/highcharts/highcharts.js"></script>
+		<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="/node_modules/slick-carousel/slick/slick.min.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
+	<body>
+		<article>
+			<header>
+				<h1>Welcome to Machine Learning<h1>
+				<h1>Part 1 - Neural Networks</h1>
+			</header>
+			<div id="article-content">
+				<h1 id="two-inputs">Two Inputs</h1>
+<p>Let's do the same thing, but with more inputs this time. Given two pixels, our model should return:</p>
+<ul>
+<li>1 if both are white</li>
+<li>0 otherwise</li>
+</ul>
+<p>We need to use a network with two inputs:</p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-and-nnet.png" alt=""></p>
+<p>There is almost no change in the code, we just have to update <code>input_shape</code> and
+replace the inputs and labels. (TODO: diff highlight)</p>
+<pre class="language-python"><code class="language-python">both_are_white_model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">)</span>
+both_are_white_model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Dense<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+both_are_white_inputs <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>BLACK<span class="token punctuation">,</span> BLACK<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>WHITE<span class="token punctuation">,</span> BLACK<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>WHITE<span class="token punctuation">,</span> WHITE<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>BLACK<span class="token punctuation">,</span> WHITE<span class="token punctuation">]</span><span class="token punctuation">]</span>
+both_are_white_labels <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span>              <span class="token number">0</span><span class="token punctuation">,</span>              <span class="token number">1</span><span class="token punctuation">,</span>              <span class="token number">0</span><span class="token punctuation">]</span>
+
+train<span class="token punctuation">(</span>
+    both_are_white_model<span class="token punctuation">,</span>
+    both_are_white_inputs<span class="token punctuation">,</span>
+    both_are_white_labels
+<span class="token punctuation">)</span>
+
+<span class="token comment">#> ...</span>
+<span class="token comment">#> Epoch 1999/2000</span>
+<span class="token comment">#> 4/4 [==============================] - 0s - loss: 0.0833 - acc: 1.0000</span>
+<span class="token comment">#> Epoch 2000/2000</span>
+<span class="token comment">#> 4/4 [==============================] - 0s - loss: 0.0833 - acc: 1.0000</span>
+
+both_are_white_model<span class="token punctuation">.</span>predict_classes<span class="token punctuation">(</span>both_are_white_inputs<span class="token punctuation">)</span>
+
+<span class="token comment">#> array([[0],</span>
+<span class="token comment">#>        [0],</span>
+<span class="token comment">#>        [1],</span>
+<span class="token comment">#>        [0]], dtype=int32)</span>
+
+<span class="token comment"># TODO: explain again rounded/not rounded</span>
+both_are_white_model<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>both_are_white_inputs<span class="token punctuation">)</span>
+
+<span class="token comment">#> array([[ 0.        ],</span>
+<span class="token comment">#>        [ 0.33332399],</span>
+<span class="token comment">#>        [ 0.66666663],</span>
+<span class="token comment">#>        [ 0.33334267]], dtype=float32)</span>
+</code></pre>
+<p>Nothing new, so let's look at the maths !</p>
+<h2 id="intuition-and-experiments">Intuition and Experiments</h2>
+<p>When a neuron has multiple inputs, it just sum their products:</p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-and-equation.png" alt=""></p>
+<p>Here is the associated computation graph:</p>
+<p><img src="/node_outputs/part-1-ann/images-js/nnet-and-equation-nnet.png" alt=""></p>
+<p>Let's update our python implementation:</p>
+<pre class="language-python"><code class="language-python">w1<span class="token punctuation">,</span> w2 <span class="token operator">=</span> both_are_white_model<span class="token punctuation">.</span>get_weights<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+w1
+
+<span class="token comment">#> array([ 0.33332399], dtype=float32)</span>
+
+w2
+
+<span class="token comment">#> array([ 0.33334267], dtype=float32)</span>
+
+<span class="token keyword">def</span> <span class="token function">neuron</span><span class="token punctuation">(</span>x1<span class="token punctuation">,</span> x2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y  <span class="token operator">=</span> x1 <span class="token operator">*</span> w1
+    y <span class="token operator">+=</span> x2 <span class="token operator">*</span> w2
+    <span class="token keyword">return</span> y
+
+neuron<span class="token punctuation">(</span>BLACK<span class="token punctuation">,</span> WHITE<span class="token punctuation">)</span>
+
+<span class="token comment">#> array([ 0.33334267], dtype=float32)</span>
+
+neuron<span class="token punctuation">(</span>WHITE<span class="token punctuation">,</span> WHITE<span class="token punctuation">)</span>
+
+<span class="token comment">#> array([ 0.66666663], dtype=float32)</span>
+</code></pre>
+<p>Once again, we get the same results as our network.</p>
+
+			</div>
+		</article>
+	</body>
+	</html>
+	

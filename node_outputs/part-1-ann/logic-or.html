@@ -1,0 +1,108 @@
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+
+		<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+		<!--
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+		-->
+
+		<link rel="stylesheet" href="/node_sources/part-x/index-v1.css">
+		<link rel="stylesheet" href="/node_modules/katex/dist/katex.min.css">
+		<link rel="stylesheet" href="/node_modules/prismjs/themes/prism-okaidia.css">
+
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick.css">
+		<link rel="stylesheet" href="/node_modules/slick-carousel/slick/slick-theme.css">
+
+		<script src="/node_modules/lodash/lodash.min.js"></script>
+		<script src="/node_modules/highcharts/highcharts.js"></script>
+		<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="/node_modules/slick-carousel/slick/slick.min.js"></script>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
+	<body>
+		<article>
+			<header>
+				<h1>Welcome to Machine Learning<h1>
+				<h1>Part 1 - Neural Networks</h1>
+			</header>
+			<div id="article-content">
+				<h2 id="both-not-black-model">Both Not Black Model</h2>
+<p>Let's do a last example to familiarize a bit more with keras: given two pixels,
+outputs:</p>
+<ul>
+<li>0 if both pixels are black</li>
+<li>1 otherwise</li>
+</ul>
+<p>This is exactly the same problem as before, just with different labels. So let's
+use this example to introduce a bit of notation:</p>
+<ul>
+<li>inputs are often associated with the variable 'x'</li>
+<li>labels are often associated with the variable 'y'.</li>
+</ul>
+<pre class="language-python"><code class="language-python">both_not_black_model <span class="token operator">=</span> Sequential<span class="token punctuation">(</span><span class="token punctuation">)</span>
+both_not_black_model<span class="token punctuation">.</span>add<span class="token punctuation">(</span>Dense<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> use_bias <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span> input_shape <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># inputs are often referred as 'x'</span>
+<span class="token comment"># labels are often referred as 'y'</span>
+both_not_black_x <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>BLACK<span class="token punctuation">,</span> BLACK<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>WHITE<span class="token punctuation">,</span> BLACK<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>WHITE<span class="token punctuation">,</span> WHITE<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>BLACK<span class="token punctuation">,</span> WHITE<span class="token punctuation">]</span><span class="token punctuation">]</span>
+both_not_black_y <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span>              <span class="token number">1</span><span class="token punctuation">,</span>              <span class="token number">1</span><span class="token punctuation">,</span>              <span class="token number">1</span><span class="token punctuation">]</span>
+
+train<span class="token punctuation">(</span>
+    both_not_black_model<span class="token punctuation">,</span>
+    both_not_black_x<span class="token punctuation">,</span>
+    both_not_black_y
+<span class="token punctuation">)</span>
+
+<span class="token comment">#> ...</span>
+<span class="token comment">#> Epoch 1999/2000</span>
+<span class="token comment">#> 4/4 [==============================] - 0s - loss: 0.0833 - acc: 1.0000</span>
+<span class="token comment">#> Epoch 2000/2000</span>
+<span class="token comment">#> 4/4 [==============================] - 0s - loss: 0.0833 - acc: 1.0000</span>
+
+both_not_black_model<span class="token punctuation">.</span>predict_classes<span class="token punctuation">(</span>both_not_black_x<span class="token punctuation">)</span>
+
+<span class="token comment">#> array([[0],</span>
+<span class="token comment">#>        [1],</span>
+<span class="token comment">#>        [1],</span>
+<span class="token comment">#>        [1]], dtype=int32)</span>
+
+both_not_black_model<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>both_not_black_x<span class="token punctuation">)</span>
+
+<span class="token comment">#> array([[ 0.        ],</span>
+<span class="token comment">#>        [ 0.6666919 ],</span>
+<span class="token comment">#>        [ 1.33333325],</span>
+<span class="token comment">#>        [ 0.66664141]], dtype=float32)</span>
+</code></pre>
+<p>Those small networks should have no more secret for you.</p>
+<h2 id="generic-code">Generic Code</h2>
+<p>Until now, we wrote a specific <code>neuron()</code> function for each network, let's
+implement a generic version.</p>
+<p>We pass the inputs and weights as lists:</p>
+<pre class="language-python"><code class="language-python">x <span class="token operator">=</span> <span class="token punctuation">[</span>x1<span class="token punctuation">,</span> x2<span class="token punctuation">]</span>
+w <span class="token operator">=</span> <span class="token punctuation">[</span>w1<span class="token punctuation">,</span> w2<span class="token punctuation">]</span>
+</code></pre>
+<p>Then we sum the product of each pair:</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">neuron</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> w<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y <span class="token operator">=</span> <span class="token number">0</span>
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        y <span class="token operator">+=</span> x<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> w<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    <span class="token keyword">return</span> y
+
+neuron<span class="token punctuation">(</span>x<span class="token punctuation">,</span> w<span class="token punctuation">)</span>
+</code></pre>
+<p>TODO: notation in real life &amp; dot product</p>
+
+			</div>
+		</article>
+	</body>
+	</html>
+	
