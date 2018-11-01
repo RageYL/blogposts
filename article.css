@@ -7559,8 +7559,9 @@ a.text-dark:hover, a.text-dark:focus {
   display: flex;
   justify-content: center; }
 
+/* for svg only (in svg ?) */
 .article-vue {
-  /* font-size  : 14px; */
+  font-size: 12px;
   margin-bottom: 1rem;
   font-family: monospace; }
 
